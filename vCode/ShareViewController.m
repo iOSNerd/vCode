@@ -8,10 +8,10 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ShareViewController.h"
 #import "WZFlashButton.h"
-#import "UMSocial_Sdk_4.2.3/Header/UMSocial.h"
-#import "UMSocial_Sdk_Extra_Frameworks/Wechat/WXApi.h"
-#import "UMSocial_Sdk_Extra_Frameworks/YiXin/YXApi.h"
-#import "UMSocial_Sdk_Extra_Frameworks/Wechat/UMSocialWechatHandler.h"
+//#import "UMSocial_Sdk_4.2.3/Header/UMSocial.h"
+//#import "UMSocial_Sdk_Extra_Frameworks/Wechat/WXApi.h"
+//#import "UMSocial_Sdk_Extra_Frameworks/YiXin/YXApi.h"
+//#import "UMSocial_Sdk_Extra_Frameworks/Wechat/UMSocialWechatHandler.h"
 #import "QRDetector.h"
 #define TabHeight 49.0f
 #define ParaHeight 64.0f
@@ -50,7 +50,7 @@
 @end
 
 
-@interface ShareViewController ()<UMSocialUIDelegate>
+@interface ShareViewController ()
 @property(strong ,nonatomic)WZFlashButton *m_modify_btn;
 @end
 
@@ -160,7 +160,7 @@
             }
         }else if(index == 12 || index==13){
             //yixin
-            bool hasApp =   [YXApi isYXAppInstalled];
+            bool hasApp = NO;//  [YXApi isYXAppInstalled];
             NSLog(@"has yixin:%d",hasApp);
             if(!hasApp){
                 index++;
@@ -325,200 +325,200 @@
 
 -(void)shareAction:(UIButton*)sender{
     
-    NSLog(@"sender tag:%d",(int)sender.tag);
-    //NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:@"shareinfo.plist"];
-    
-    NSString *shareText = NSLocalizedString(@"sharetext", nil);
-    NSLog(@"shareText:%@",shareText);
-    UIImage *shareImage = [UIImage imageWithData: UIImagePNGRepresentation(m_shareImg)];
-    NSString *platform;
-    if (sender.tag == 10000) {
-        UIImage *img = [self prepareForWechatTimeline:m_shareImg];
-        platform = UMShareToWechatTimeline;
-        WXMediaMessage *message = [WXMediaMessage message];
-        [message setThumbImage:[QRDetector generatePhotoThumbnail:m_shareImg]];
-        
-        WXImageObject *ext = [WXImageObject object];
-        ext.imageData = UIImagePNGRepresentation(img);
-        message.description = shareText;
-        message.mediaObject = ext;
-        message.mediaTagName = @"WECHAT_TAG_JUMP_APP";
-        message.messageExt = shareText;
-        message.messageAction = @"<action>dotalist</action>";
-        
-        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-        req.text = shareText;
-        req.bText = NO;
-        req.message = message;
-       req.scene = 1;//timeline
-       
-        
-        [WXApi sendReq:req];
-        
-        return;
-    }else if(sender.tag==10001){
-        platform = UMShareToWechatTimeline;
-        WXMediaMessage *message = [WXMediaMessage message];
-        [message setThumbImage:[QRDetector generatePhotoThumbnail:m_shareImg]];
-        
-        WXImageObject *ext = [WXImageObject object];
-        ext.imageData = UIImagePNGRepresentation(m_shareImg);
-        message.description = shareText;
-        message.mediaObject = ext;
-        message.mediaTagName = @"WECHAT_TAG_JUMP_APP";
-        message.messageExt = shareText;
-        message.messageAction = @"<action>dotalist</action>";
-        
-        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-        req.text = shareText;
-        req.bText = NO;
-        req.message = message;
-        req.scene = 0;//session
-        
-        [WXApi sendReq:req];
-        
-        return;
-    }else if(sender.tag==10002){
-        platform = UMShareToWechatTimeline;
-        WXMediaMessage *message = [WXMediaMessage message];
-        [message setThumbImage:[QRDetector generatePhotoThumbnail:m_shareImg]];
-        
-        WXImageObject *ext = [WXImageObject object];
-        ext.imageData = UIImagePNGRepresentation(m_shareImg);
-        message.description = shareText;
-        message.mediaObject = ext;
-        message.mediaTagName = @"WECHAT_TAG_JUMP_APP";
-        message.messageExt = shareText;
-        message.messageAction = @"<action>dotalist</action>";
-        
-        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-        req.text = shareText;
-        req.bText = NO;
-        req.message = message;
-        
-        req.scene = 2;//favorite
-        
-        [WXApi sendReq:req];
-        
-        return;
-    }else  if (sender.tag == 10003) {
-        platform = UMShareToSina;
-    }else  if (sender.tag == 10004) {
-        platform = UMShareToQQ;
-        
-    }else  if (sender.tag == 10005) {
-        platform = UMShareToQQ;
-    }else  if (sender.tag == 10006) {
-        platform = UMShareToInstagram;
-    }else  if (sender.tag == 10007) {
-        platform = UMShareToFacebook;
-    }else  if (sender.tag == 10008) {
-        platform = UMShareToTwitter;
-    }else  if (sender.tag == 10009) {
-        platform = UMShareToWhatsapp;
-    }else  if (sender.tag == 10010) {
-        platform = UMShareToTumblr;
-    }else  if (sender.tag == 10011) {
-        platform = UMShareToLine;
-    }else  if (sender.tag == 10012) {
-        platform = UMShareToYXSession;
-        YXMediaMessage *msg = [YXMediaMessage message];
-        [msg setThumbData:UIImagePNGRepresentation([QRDetector generatePhotoThumbnail:m_shareImg])];
-        
-        YXImageObject *ext = [YXImageObject object];
-        ext.imageData =UIImagePNGRepresentation(m_shareImg);
-        msg.description = shareText;
-        msg.mediaObject = ext;
-        
-        SendMessageToYXReq*req = [[SendMessageToYXReq alloc] init];
-        req.text = shareText;
-        req.bText = NO;
-        req.message = msg;
-        req.scene = 0;
-        [YXApi sendReq:req];
-        return;
-        
-    }else  if (sender.tag == 10013) {
-        platform = UMShareToYXTimeline;
-        UIImage *img = [self prepareForWechatTimeline:m_shareImg];
-        YXMediaMessage *msg = [YXMediaMessage message];
-        [msg setThumbData:UIImagePNGRepresentation([QRDetector generatePhotoThumbnail:m_shareImg])];
-        
-        YXImageObject *ext = [YXImageObject object];
-        ext.imageData =UIImagePNGRepresentation(img);
-        msg.description = shareText;
-        msg.mediaObject = ext;
-        
-        SendMessageToYXReq*req = [[SendMessageToYXReq alloc] init];
-        req.text = shareText;
-        req.bText = NO;
-        req.message = msg;
-        req.scene = 1;
-        [YXApi sendReq:req];
-        return;
-    }else  if (sender.tag == 10014) {
-        platform = UMShareToTencent;
-    }else  if (sender.tag == 10015) {
-        platform = UMShareToRenren;
-    }
-    [[UMSocialControllerService defaultControllerService] setShareText:shareText shareImage:shareImage socialUIDelegate:self];
-    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:platform];
-    snsPlatform.snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+//    NSLog(@"sender tag:%d",(int)sender.tag);
+//    //NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:@"shareinfo.plist"];
+//    
+//    NSString *shareText = NSLocalizedString(@"sharetext", nil);
+//    NSLog(@"shareText:%@",shareText);
+//    UIImage *shareImage = [UIImage imageWithData: UIImagePNGRepresentation(m_shareImg)];
+//    NSString *platform;
+//    if (sender.tag == 10000) {
+//        UIImage *img = [self prepareForWechatTimeline:m_shareImg];
+//        platform = UMShareToWechatTimeline;
+//        WXMediaMessage *message = [WXMediaMessage message];
+//        [message setThumbImage:[QRDetector generatePhotoThumbnail:m_shareImg]];
+//        
+//        WXImageObject *ext = [WXImageObject object];
+//        ext.imageData = UIImagePNGRepresentation(img);
+//        message.description = shareText;
+//        message.mediaObject = ext;
+//        message.mediaTagName = @"WECHAT_TAG_JUMP_APP";
+//        message.messageExt = shareText;
+//        message.messageAction = @"<action>dotalist</action>";
+//        
+//        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+//        req.text = shareText;
+//        req.bText = NO;
+//        req.message = message;
+//       req.scene = 1;//timeline
+//       
+//        
+//        [WXApi sendReq:req];
+//        
+//        return;
+//    }else if(sender.tag==10001){
+//        platform = UMShareToWechatTimeline;
+//        WXMediaMessage *message = [WXMediaMessage message];
+//        [message setThumbImage:[QRDetector generatePhotoThumbnail:m_shareImg]];
+//        
+//        WXImageObject *ext = [WXImageObject object];
+//        ext.imageData = UIImagePNGRepresentation(m_shareImg);
+//        message.description = shareText;
+//        message.mediaObject = ext;
+//        message.mediaTagName = @"WECHAT_TAG_JUMP_APP";
+//        message.messageExt = shareText;
+//        message.messageAction = @"<action>dotalist</action>";
+//        
+//        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+//        req.text = shareText;
+//        req.bText = NO;
+//        req.message = message;
+//        req.scene = 0;//session
+//        
+//        [WXApi sendReq:req];
+//        
+//        return;
+//    }else if(sender.tag==10002){
+//        platform = UMShareToWechatTimeline;
+//        WXMediaMessage *message = [WXMediaMessage message];
+//        [message setThumbImage:[QRDetector generatePhotoThumbnail:m_shareImg]];
+//        
+//        WXImageObject *ext = [WXImageObject object];
+//        ext.imageData = UIImagePNGRepresentation(m_shareImg);
+//        message.description = shareText;
+//        message.mediaObject = ext;
+//        message.mediaTagName = @"WECHAT_TAG_JUMP_APP";
+//        message.messageExt = shareText;
+//        message.messageAction = @"<action>dotalist</action>";
+//        
+//        SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+//        req.text = shareText;
+//        req.bText = NO;
+//        req.message = message;
+//        
+//        req.scene = 2;//favorite
+//        
+//        [WXApi sendReq:req];
+//        
+//        return;
+//    }else  if (sender.tag == 10003) {
+//        platform = UMShareToSina;
+//    }else  if (sender.tag == 10004) {
+//        platform = UMShareToQQ;
+//        
+//    }else  if (sender.tag == 10005) {
+//        platform = UMShareToQQ;
+//    }else  if (sender.tag == 10006) {
+//        platform = UMShareToInstagram;
+//    }else  if (sender.tag == 10007) {
+//        platform = UMShareToFacebook;
+//    }else  if (sender.tag == 10008) {
+//        platform = UMShareToTwitter;
+//    }else  if (sender.tag == 10009) {
+//        platform = UMShareToWhatsapp;
+//    }else  if (sender.tag == 10010) {
+//        platform = UMShareToTumblr;
+//    }else  if (sender.tag == 10011) {
+//        platform = UMShareToLine;
+//    }else  if (sender.tag == 10012) {
+//        platform = UMShareToYXSession;
+//        YXMediaMessage *msg = [YXMediaMessage message];
+//        [msg setThumbData:UIImagePNGRepresentation([QRDetector generatePhotoThumbnail:m_shareImg])];
+//        
+//        YXImageObject *ext = [YXImageObject object];
+//        ext.imageData =UIImagePNGRepresentation(m_shareImg);
+//        msg.description = shareText;
+//        msg.mediaObject = ext;
+//        
+//        SendMessageToYXReq*req = [[SendMessageToYXReq alloc] init];
+//        req.text = shareText;
+//        req.bText = NO;
+//        req.message = msg;
+//        req.scene = 0;
+//        [YXApi sendReq:req];
+//        return;
+//        
+//    }else  if (sender.tag == 10013) {
+//        platform = UMShareToYXTimeline;
+//        UIImage *img = [self prepareForWechatTimeline:m_shareImg];
+//        YXMediaMessage *msg = [YXMediaMessage message];
+//        [msg setThumbData:UIImagePNGRepresentation([QRDetector generatePhotoThumbnail:m_shareImg])];
+//        
+//        YXImageObject *ext = [YXImageObject object];
+//        ext.imageData =UIImagePNGRepresentation(img);
+//        msg.description = shareText;
+//        msg.mediaObject = ext;
+//        
+//        SendMessageToYXReq*req = [[SendMessageToYXReq alloc] init];
+//        req.text = shareText;
+//        req.bText = NO;
+//        req.message = msg;
+//        req.scene = 1;
+//        [YXApi sendReq:req];
+//        return;
+//    }else  if (sender.tag == 10014) {
+//        platform = UMShareToTencent;
+//    }else  if (sender.tag == 10015) {
+//        platform = UMShareToRenren;
+//    }
+//    [[UMSocialControllerService defaultControllerService] setShareText:shareText shareImage:shareImage socialUIDelegate:self];
+//    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:platform];
+//    snsPlatform.snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
 }
 //下面可以设置根据点击不同的分享平台，设置不同的分享文字
--(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
-{
-    
-    
-    //UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:m_shareImg_URL]];
-    if([platformName isEqualToString:UMShareToWechatTimeline] || [platformName isEqualToString:UMShareToWechatFavorite] || [platformName isEqualToString:UMShareToWechatSession]){
-        
-        socialData.extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-    }else if ([platformName isEqualToString:UMShareToQQ]) {
-        socialData.extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
-        //socialData.extConfig.qqData =nil;
-    }else if ([platformName isEqualToString:UMShareToQzone]) {
-        socialData.extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
-    }else if ([platformName isEqualToString:UMShareToYXSession]) {
-        socialData.extConfig.yxtimelineData.yxMessageType = UMSocialYXMessageTypeImage;
-        socialData.extConfig.yxsessionData.yxMessageType = UMSocialYXMessageTypeImage;
-    }else if ([platformName isEqualToString:UMShareToYXTimeline]) {
-        socialData.extConfig.yxtimelineData.yxMessageType = UMSocialYXMessageTypeImage;
-    }else if ([platformName isEqualToString:UMShareToSina]) {
-        UIImage *img = [self prepareForSinaWaterMark:m_shareImg];
-        socialData.shareImage = img;
-    }else if ([platformName isEqualToString:UMShareToSina]) {
-    }else if ([platformName isEqualToString:UMShareToSina]) {
-    }else if ([platformName isEqualToString:UMShareToSina]) {
-    }else if ([platformName isEqualToString:UMShareToSina]) {
-    }else if ([platformName isEqualToString:UMShareToSina]) {
-    }
-    else{
-    }
-    
-    
-}
+//-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+//{
+//    
+//    
+//    //UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfURL:m_shareImg_URL]];
+//    if([platformName isEqualToString:UMShareToWechatTimeline] || [platformName isEqualToString:UMShareToWechatFavorite] || [platformName isEqualToString:UMShareToWechatSession]){
+//        
+//        socialData.extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+//    }else if ([platformName isEqualToString:UMShareToQQ]) {
+//        socialData.extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+//        //socialData.extConfig.qqData =nil;
+//    }else if ([platformName isEqualToString:UMShareToQzone]) {
+//        socialData.extConfig.qqData.qqMessageType = UMSocialQQMessageTypeImage;
+//    }else if ([platformName isEqualToString:UMShareToYXSession]) {
+//        socialData.extConfig.yxtimelineData.yxMessageType = UMSocialYXMessageTypeImage;
+//        socialData.extConfig.yxsessionData.yxMessageType = UMSocialYXMessageTypeImage;
+//    }else if ([platformName isEqualToString:UMShareToYXTimeline]) {
+//        socialData.extConfig.yxtimelineData.yxMessageType = UMSocialYXMessageTypeImage;
+//    }else if ([platformName isEqualToString:UMShareToSina]) {
+//        UIImage *img = [self prepareForSinaWaterMark:m_shareImg];
+//        socialData.shareImage = img;
+//    }else if ([platformName isEqualToString:UMShareToSina]) {
+//    }else if ([platformName isEqualToString:UMShareToSina]) {
+//    }else if ([platformName isEqualToString:UMShareToSina]) {
+//    }else if ([platformName isEqualToString:UMShareToSina]) {
+//    }else if ([platformName isEqualToString:UMShareToSina]) {
+//    }
+//    else{
+//    }
+//    
+//    
+//}
 
--(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType
-{
-    NSLog(@"didClose is %d",fromViewControllerType);
-}
-
-//下面得到分享完成的回调
--(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
-{
-    NSLog(@"didFinishGetUMSocialDataInViewController with response is %@",response);
-    //根据`responseCode`得到发送结果,如果分享成功
-    if(response.responseCode == UMSResponseCodeSuccess)
-    {
-        //得到分享到的微博平台名
-        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
-    }
-}
--(void)didFinishShareInShakeView:(UMSocialResponseEntity *)response
-{
-    NSLog(@"finish share with response is %@",response);
-}
+//-(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType
+//{
+//    NSLog(@"didClose is %d",fromViewControllerType);
+//}
+//
+////下面得到分享完成的回调
+//-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+//{
+//    NSLog(@"didFinishGetUMSocialDataInViewController with response is %@",response);
+//    //根据`responseCode`得到发送结果,如果分享成功
+//    if(response.responseCode == UMSResponseCodeSuccess)
+//    {
+//        //得到分享到的微博平台名
+//        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+//    }
+//}
+//-(void)didFinishShareInShakeView:(UMSocialResponseEntity *)response
+//{
+//    NSLog(@"finish share with response is %@",response);
+//}
 -(void)modify{
     [self.navigationController popViewControllerAnimated:YES];
     return;

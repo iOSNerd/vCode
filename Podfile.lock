@@ -6,7 +6,9 @@ PODS:
   - LKDBHelper (2.3.5):
     - FMDB
   - MMMaterialDesignSpinner (0.2.3)
-  - UMengFeedback (2.3.4)
+  - TencentOpenApiSDK (2.9.5):
+    - TencentOpenApiSDK/Basic (= 2.9.5)
+  - TencentOpenApiSDK/Basic (2.9.5)
   - ZXingObjC (3.1.0):
     - ZXingObjC/All (= 3.1.0)
   - ZXingObjC/All (3.1.0)
@@ -15,7 +17,7 @@ DEPENDENCIES:
   - CTFeedback (~> 1.1.1)
   - LKDBHelper (~> 2.3.5)
   - MMMaterialDesignSpinner (~> 0.2.3)
-  - UMengFeedback (~> 2.3.4)
+  - TencentOpenApiSDK (~> 2.9.5)
   - ZXingObjC (~> 3.1.0)
 
 SPEC CHECKSUMS:
@@ -23,9 +25,9 @@ SPEC CHECKSUMS:
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   LKDBHelper: 23e114721d862fcf1d2f0b59bfddf60899562010
   MMMaterialDesignSpinner: 55c80b454f7928d0ed789cc3c456fa06bd6a2f16
-  UMengFeedback: 5283cc0e324dffca4dd54c4abb3cbded56487817
+  TencentOpenApiSDK: a0d7716edd6eb438d65828168e8e5137301b436d
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-PODFILE CHECKSUM: 639788357e0337c6b2819ba59a785aa93f3dae51
+PODFILE CHECKSUM: 349a0e9e71489e9fe7eba6c2461c204922dad1a7
 
 COCOAPODS: 1.1.0.beta.2

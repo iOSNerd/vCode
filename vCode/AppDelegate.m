@@ -9,18 +9,18 @@
 #import "AppDelegate.h"
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <MediaPlayer/MPMoviePlayerViewController.h>
-#import "../Pods/UMengFeedback/UMFeedback_iOS_2.3/UMengFeedback_SDK_2.3/UMFeedback.h"
-#import "UMSocial.h"
+//#import <UMengFeedback/UMFeedback.h>
+//#import "UMSocial.h"
 
-#import "UMSocialYixinHandler.h"
-#import "UMSocialWechatHandler.h"
-#import "UMSocialQQHandler.h"
-#import "UMSocialInstagramHandler.h"
-#import "UMSocialWhatsappHandler.h"
-#import "UMSocialLineHandler.h"
-#import "UMSocialTumblrHandler.h"
-#import "UMSocial_Sdk_Extra_Frameworks/Facebook/UMSocialFacebookHandler.h"
-#import "UIDeviceHardware.h"
+//#import "UMSocialYixinHandler.h"
+//#import "UMSocialWechatHandler.h"
+//#import "UMSocialQQHandler.h"
+//#import "UMSocialInstagramHandler.h"
+//#import "UMSocialWhatsappHandler.h"
+//#import "UMSocialLineHandler.h"
+//#import "UMSocialTumblrHandler.h"
+//#import "UMSocial_Sdk_Extra_Frameworks/Facebook/UMSocialFacebookHandler.h"
+//#import "UIDeviceHardware.h"
 #import "HistoryEntry.h"
 
 #define UmengAppkey @"5566c41067e58e4d69004417"
@@ -69,8 +69,8 @@
     [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     [self configUMeng];
     
-    UIDeviceHardware* hw = [[UIDeviceHardware alloc] init];
-    BOOL is_ip56 = [hw Is_IPH_56];
+
+    BOOL is_ip56 = YES;
     
     // Override point for customization after application launch.
     //splash animation
@@ -161,66 +161,67 @@
     return YES;
 }
 -(void)configUMeng{
+    return;
     //feedback sdk
-    [UMFeedback setAppkey:UmengAppkey];
-    
-    //sns sdk//设置友盟社会化组件appkey
-    [UMSocialData setAppKey:UmengAppkey];
-    
-    //打开调试log的开关
-    [UMSocialData openLog:NO];
-    
-    //如果你要支持不同的屏幕方向，需要这样设置，否则在iPhone只支持一个竖屏方向
-    //[UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
-    
-    //设置微信AppId，设置分享url，默认使用友盟的网址
-    [UMSocialWechatHandler setWXAppId:WechatAppid appSecret:WechatSecret url:VcodeHome];
-    
-
-    //打开新浪微博的SSO开关
-    //[UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-    //[UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-    
-    //打开腾讯微博SSO开关，设置回调地址，只支持32位
-    //    [UMSocialTencentWeiboHandler openSSOWithRedirectUrl:@"http://sns.whalecloud.com/tencent2/callback"];
-    
-    //    //设置分享到QQ空间的应用Id，和分享url 链接
-    [UMSocialQQHandler setQQWithAppId:QQAppid appKey:QQAppKey url:VcodeHome];
-    
-    //    //设置易信Appkey和分享url地址
-    [UMSocialYixinHandler setYixinAppKey:YixinAppid url:VcodeHome];
-    
-    //    //设置来往AppId，appscret，显示来源名称和url地址，只支持32位
-    //    [UMSocialLaiwangHandler setLaiwangAppId:@"8112117817424282305" appSecret:@"9996ed5039e641658de7b83345fee6c9" appDescription:@"友盟社会化组件" urlStirng:@"http://www.umeng.com/social"];
-    
-    //打开人人网SSO开关
-    //[UMSocialRenrenHandler openSSO];
-    
-    //使用友盟统计
-    //[MobClick startWithAppkey:UmengAppkey];
-    
-    ////    设置facebook应用ID，和分享纯文字用到的url地址
-
-    [UMSocialFacebookHandler setFacebookAppID:FacebookAppid shareFacebookWithURL:VcodeHome];
-    //
-    ////    下面打开Instagram的开关
-    [UMSocialInstagramHandler openInstagramWithScale:NO paddingColor:[UIColor blackColor]];
-    //
-    //[UMSocialTwitterHandler openTwitter];
-    
-    //打开whatsapp
-    [UMSocialWhatsappHandler openWhatsapp:UMSocialWhatsappMessageTypeImage];
-    
-    //打开Tumblr
-    [UMSocialTumblrHandler openTumblr];
-    
-    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatFavorite,UMShareToWechatTimeline]];
-    //打开line
-    NSLog(@"share app names:%@",NSLocalizedStringFromTable(@"wechat_session", @"UMSocialLocalizable", nil));
-    [UMSocialLineHandler openLineShare:UMSocialLineMessageTypeImage];
-    for (NSString *snsName in [UMSocialSnsPlatformManager sharedInstance].allSnsValuesArray) {
-        NSLog(@"%@",snsName);
-    }
+//    [UMFeedback setAppkey:UmengAppkey];
+//    
+//    //sns sdk//设置友盟社会化组件appkey
+//    [UMSocialData setAppKey:UmengAppkey];
+//    
+//    //打开调试log的开关
+//    [UMSocialData openLog:NO];
+//    
+//    //如果你要支持不同的屏幕方向，需要这样设置，否则在iPhone只支持一个竖屏方向
+//    //[UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
+//    
+//    //设置微信AppId，设置分享url，默认使用友盟的网址
+//    [UMSocialWechatHandler setWXAppId:WechatAppid appSecret:WechatSecret url:VcodeHome];
+//    
+//
+//    //打开新浪微博的SSO开关
+//    //[UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+//    //[UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+//    
+//    //打开腾讯微博SSO开关，设置回调地址，只支持32位
+//    //    [UMSocialTencentWeiboHandler openSSOWithRedirectUrl:@"http://sns.whalecloud.com/tencent2/callback"];
+//    
+//    //    //设置分享到QQ空间的应用Id，和分享url 链接
+//    [UMSocialQQHandler setQQWithAppId:QQAppid appKey:QQAppKey url:VcodeHome];
+//    
+//    //    //设置易信Appkey和分享url地址
+//    [UMSocialYixinHandler setYixinAppKey:YixinAppid url:VcodeHome];
+//    
+//    //    //设置来往AppId，appscret，显示来源名称和url地址，只支持32位
+//    //    [UMSocialLaiwangHandler setLaiwangAppId:@"8112117817424282305" appSecret:@"9996ed5039e641658de7b83345fee6c9" appDescription:@"友盟社会化组件" urlStirng:@"http://www.umeng.com/social"];
+//    
+//    //打开人人网SSO开关
+//    //[UMSocialRenrenHandler openSSO];
+//    
+//    //使用友盟统计
+//    //[MobClick startWithAppkey:UmengAppkey];
+//    
+//    ////    设置facebook应用ID，和分享纯文字用到的url地址
+//
+//    [UMSocialFacebookHandler setFacebookAppID:FacebookAppid shareFacebookWithURL:VcodeHome];
+//    //
+//    ////    下面打开Instagram的开关
+//    [UMSocialInstagramHandler openInstagramWithScale:NO paddingColor:[UIColor blackColor]];
+//    //
+//    //[UMSocialTwitterHandler openTwitter];
+//    
+//    //打开whatsapp
+//    [UMSocialWhatsappHandler openWhatsapp:UMSocialWhatsappMessageTypeImage];
+//    
+//    //打开Tumblr
+//    [UMSocialTumblrHandler openTumblr];
+//    
+//    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ,UMShareToQzone,UMShareToWechatSession,UMShareToWechatFavorite,UMShareToWechatTimeline]];
+//    //打开line
+//    NSLog(@"share app names:%@",NSLocalizedStringFromTable(@"wechat_session", @"UMSocialLocalizable", nil));
+//    [UMSocialLineHandler openLineShare:UMSocialLineMessageTypeImage];
+//    for (NSString *snsName in [UMSocialSnsPlatformManager sharedInstance].allSnsValuesArray) {
+//        NSLog(@"%@",snsName);
+//    }
 }
 
 -(void)skip_btn_click{
@@ -257,11 +258,11 @@
  */
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return  [UMSocialSnsService handleOpenURL:url ];//wxApiDelegate:nil
+    return  YES;//[UMSocialSnsService handleOpenURL:url ];//wxApiDelegate:nil
 }
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
-    return  [UMSocialSnsService handleOpenURL:url];
+    return  YES;//[UMSocialSnsService handleOpenURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -280,7 +281,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [UMSocialSnsService  applicationDidBecomeActive];
+//    [UMSocialSnsService  applicationDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

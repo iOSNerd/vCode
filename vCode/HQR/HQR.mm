@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "HQR.h"
 #import <opencv2/highgui/highgui_c.h>
-#import "../../Pods/Headers/Public/ZXingObjC/ZXLuminanceSource.h"
+#import <ZXingObjC/ZXLuminanceSource.h>
 
-#import "../../Pods/Headers/Public/ZXingObjC/ZXingObjC.h"
+#import <ZXingObjC/ZXingObjC.h>
 @interface HQR (){
     int _qr_point;
     int _h_qr_point;

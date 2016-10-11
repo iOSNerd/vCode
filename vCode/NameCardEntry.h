@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "../Pods/LKDBHelper/LKDBHelper/Helper/LKDBHelper.h"
+#import <LKDBHelper/LKDBHelper.h>
 
 
 @interface NameCardEntry : NSObject

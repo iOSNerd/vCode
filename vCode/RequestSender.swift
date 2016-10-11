@@ -21,11 +21,11 @@ class RequestSender:NSObject{
     static var hasPendingReq:Bool = false // is there any request pending, should stop the follow req.
 
     override init(){
-        println("init for sender")
+        print("init for sender")
     }
     
     deinit{
-        println("deinit for sender")
+        print("deinit for sender")
     }
     
     class func getRStatus()->RSatus{
@@ -48,7 +48,7 @@ class RequestSender:NSObject{
         
         self.status = RSatus.Uploading
         var uuid:String = "defaultuuid"
-        uuid = UIDevice.currentDevice().identifierForVendor.UUIDString;
+        uuid = UIDevice.currentDevice().identifierForVendor!.UUIDString;
         var message:String = ""
         var url:String = ""
         var vcard:String = ""
@@ -58,7 +58,7 @@ class RequestSender:NSObject{
         var namecard:NameCardEntry = NameCardEntry();
         
         self.uploadType = NSUserDefaults.standardUserDefaults().objectForKey("uploadType") as! String
-        println("uuid: "+uuid)
+        print("uuid: "+uuid)
         //set tm
 
         let dat:NSDate = NSDate(timeIntervalSinceNow: 0)
@@ -66,12 +66,12 @@ class RequestSender:NSObject{
         tm = String(stringInterpolationSegment: a)
         tm = tm.stringByReplacingOccurrencesOfString(".", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
         
-        println("tm: "+tm)
+        print("tm: "+tm)
         
         //set sign
         let secretKey:String = "C10-705"
         sign = md5Encryptor.md5(secretKey+tm+uuid)
-        println("sign: "+sign)
+        print("sign: "+sign)
         let request = NSMutableURLRequest();
         var postData:String = ""
         request.HTTPMethod = "POST"
@@ -86,7 +86,7 @@ class RequestSender:NSObject{
             request.setValue("application/x-www-form-urlencoded ; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.HTTPBody = postData.dataUsingEncoding(NSUTF8StringEncoding)
             
-            println(message)
+            print(message)
         case "url":
             
             self.shortURL = ""
@@ -96,7 +96,7 @@ class RequestSender:NSObject{
             request.setValue("application/x-www-form-urlencoded ; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.HTTPBody = postData.dataUsingEncoding(NSUTF8StringEncoding)
             
-            println(url)
+            print(url)
         case "qrcode":
             RequestSender.shortURL = ""
         case "online_namecard":
@@ -146,7 +146,7 @@ class RequestSender:NSObject{
             request.setValue("application/x-www-form-urlencoded ; charset=utf-8", forHTTPHeaderField: "Content-Type")
             request.HTTPBody = postData.dataUsingEncoding(NSUTF8StringEncoding)
             
-            println(url)
+            print(url)
         case "image":
             self.namecardAvatarURL = ""
             request.URL = NSURL(string: "http://2vma.co/api/image")
@@ -154,7 +154,7 @@ class RequestSender:NSObject{
             let localFIleName = NSUserDefaults.standardUserDefaults().objectForKey("NC_K_AVATAR_LOCAL_NAME") as! String
             
             let img = UIImage(contentsOfFile: localFIleName)
-            let data : NSData = UIImagePNGRepresentation(img)
+            let data : NSData = UIImagePNGRepresentation(img!)!
             
             let boundary : String = "----WebKitFormBoundaryG0H9jTpjN7PtmaAh"
             let contentType : String = "multipart/form-data; boundary=" + boundary
@@ -189,35 +189,45 @@ class RequestSender:NSObject{
             (response,data,error) in
             
             if (error != nil){
-                println(error)
+                print(error)
                 NSNotificationCenter.defaultCenter().postNotificationName("requestERROR", object: self)
-                self.alert(error.localizedDescription, button: "OK")
+                self.alert(error!.localizedDescription, button: "OK")
                 self.status = RSatus.OK
                 self.hasPendingReq = false
                 return
                 
             }
-            let strdata = NSString(data: data, encoding: NSUTF8StringEncoding)!
-            println(strdata)
-            if let json:NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary{
-                println(strdata)
-                println(json)
-                println(json["code"])
+            let strdata = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+            print(strdata)
+            
+            let json:NSDictionary?
+            
+            do {
+                json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+            } catch _ {
+                NSLog("wocacaca")
+                return;
+            }
+            
+            if (json != nil) {
+                print(strdata)
+                print(json)
+                print(json!["code"])
                 //NSString* encodedata = [[json objectForKey:@"data"] objectForKey:@"shortUrl"];
-                if let code = json["code"] as? NSNumber{
+                if let code = json!["code"] as? NSNumber{
                     //println("in")
                     if code != 0{
-                        println("code error")
+                        print("code error")
                         self.shortURL = ""
                     }
                     else{
-                        if let data = json["data"] as? NSDictionary{
+                        if let data = json!["data"] as? NSDictionary{
                             switch self.uploadType{
                                 case "txt","url":
                                     if let url = data["shortUrl"] as? String{
                                         self.shortURL = self.baseURL+url
                                         NSNotificationCenter.defaultCenter().postNotificationName("didReceiveURL", object: self)
-                                        println(self.shortURL)
+                                        print(self.shortURL)
 
                                     }
                                 case "online_namecard":
@@ -226,7 +236,7 @@ class RequestSender:NSObject{
                                         namecard.m_id = self.shortURL
                                         namecard.saveToDB()
                                         NSNotificationCenter.defaultCenter().postNotificationName("didReceiveURL", object: self)
-                                        println(self.shortURL)
+                                        print(self.shortURL)
 
                                     }
                                 case "image":

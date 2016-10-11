@@ -56,7 +56,7 @@ class setURLViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         }
         self.view.addSubview(m_btn_next)
         
-        var textinputframe:CGRect = textInput.frame
+        let textinputframe:CGRect = textInput.frame
         var label_frame:CGRect = CGRect()
         label_frame.size.width = s_width*0.8
         label_frame.size.height = 44*4
@@ -90,7 +90,7 @@ class setURLViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         sender.resignFirstResponder()
          //println(textField.text)
     }
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         textInput.resignFirstResponder()
     }
     @IBAction func next(){
@@ -103,11 +103,11 @@ class setURLViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         }
         saveToUserDefaults()
         RequestSender.sendRequest()
-        println(RequestSender.shortURL)
+        print(RequestSender.shortURL)
         self.performSegueWithIdentifier("setURLToCutView", sender: self)
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let receiver:UIViewController = segue.destinationViewController as! UIViewController
+        let receiver:UIViewController = segue.destinationViewController 
         if(receiver.respondsToSelector(Selector("setHaveDataToEncode:"))){
             let val:NSNumber = NSNumber(bool:false)
             receiver.setValue(val, forKey: "haveDataToEncode")
@@ -115,13 +115,13 @@ class setURLViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         
     }
     func saveToUserDefaults(){
-        var ud = NSUserDefaults.standardUserDefaults()
-        var url:NSString = textInput.text
+        let ud = NSUserDefaults.standardUserDefaults()
+        let url:NSString = textInput.text!
         var final_URL:NSString = url
         if(url.length<7){
             final_URL = "http://" + (url as String)
         }else{
-            var prefix :NSString = url.substringToIndex(6)
+            let prefix :NSString = url.substringToIndex(6)
             if(prefix.isEqualToString("http:/") || prefix.isEqualToString("https:") || prefix.isEqualToString("ftp://")){
                 
             }else{
@@ -132,7 +132,7 @@ class setURLViewController: UIViewController,UIImagePickerControllerDelegate,UIN
         ud.setObject(final_URL, forKey: "url")
         ud.setObject("url", forKey: "uploadType")
         ud.synchronize()
-        println(final_URL)
-        println("saved complete!")
+        print(final_URL)
+        print("saved complete!")
     }
 }

@@ -14,16 +14,16 @@ class FinalViewController: UIViewController,NSURLConnectionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         backButton.hidden = true
-        println("view did load!")
+        print("view did load!")
         let ud = NSUserDefaults.standardUserDefaults()
         let imgData:NSData = ud.objectForKey("originImg") as! NSData
         //println(imgData)
         if let oringinImg = UIImage(data: imgData){
-            println("wrapped")
+            print("wrapped")
             imageView.image = oringinImg
         }
       
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveShortURL:", name: "didReceiveURL", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FinalViewController.didReceiveShortURL(_:)), name: "didReceiveURL", object: nil)
         
         let a = RequestSender.shortURL
         if a != ""{
@@ -41,8 +41,8 @@ class FinalViewController: UIViewController,NSURLConnectionDelegate {
     }
     
     func didReceiveShortURL(sender:AnyObject){
-        println("received!!")
-        println("url:"+RequestSender.shortURL)
+        print("received!!")
+        print("url:"+RequestSender.shortURL)
         backButton.hidden = false
     }
     /*

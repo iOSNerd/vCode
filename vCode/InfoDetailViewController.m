@@ -8,7 +8,8 @@
 
 #import "InfoDetailViewController.h"
 
-#import "../Pods/MMMaterialDesignSpinner/Pod/Classes/MMMaterialDesignSpinner.h"
+#import <MMMaterialDesignSpinner/MMMaterialDesignSpinner.h>
+
 @interface InfoDetailViewController ()
 @property(strong, nonatomic)MMMaterialDesignSpinner *m_spinnerView;
 @end

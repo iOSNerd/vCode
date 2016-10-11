@@ -55,7 +55,7 @@ class setTextViewController: UIViewController, UINavigationControllerDelegate,UI
         self.view.addSubview(m_btn_next)
         
         //notes
-        var textinputframe:CGRect = textInput.frame
+        let textinputframe:CGRect = textInput.frame
         var label_frame:CGRect = CGRect()
         label_frame.size.width = s_width*0.8
         label_frame.size.height = 44*4
@@ -70,14 +70,14 @@ class setTextViewController: UIViewController, UINavigationControllerDelegate,UI
         notesLabel.textColor = UIColor.lightGrayColor()
         
         
-        var inputFrame:CGRect = textInput.frame
+        let inputFrame:CGRect = textInput.frame
         var switchFrame:CGRect = CGRect()
         switchFrame.size = CGSizeMake(51, 31)
         switchFrame.origin.y = inputFrame.origin.y + inputFrame.size.height + 10
         switchFrame.origin.x = inputFrame.origin.x + inputFrame.size.width - 51
         //m_network_transform_switch = UISwitch(frame: switchFrame)
         m_network_transform_switch.setOn(m_is_network_translate, animated: true)
-        m_network_transform_switch.addTarget(self, action: "network_translate:", forControlEvents: UIControlEvents.ValueChanged)
+        m_network_transform_switch.addTarget(self, action: #selector(setTextViewController.network_translate(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.view.addSubview(m_network_transform_switch)
         
         switchFrame.size.width = inputFrame.size.width - 51
@@ -96,7 +96,7 @@ class setTextViewController: UIViewController, UINavigationControllerDelegate,UI
     }
     func network_translate(sender:UISwitch){
         m_is_network_translate = sender.on
-        println(self.m_is_network_translate)
+        print(self.m_is_network_translate)
     }
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: true);
@@ -104,7 +104,7 @@ class setTextViewController: UIViewController, UINavigationControllerDelegate,UI
         self.view.bringSubviewToFront(m_network_transform_label)
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         textInput.resignFirstResponder()
     }
 
@@ -135,13 +135,13 @@ class setTextViewController: UIViewController, UINavigationControllerDelegate,UI
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if(m_is_network_translate){
-            let receiver:UIViewController = segue.destinationViewController as! UIViewController
+            let receiver:UIViewController = segue.destinationViewController 
             if(receiver.respondsToSelector(Selector("setHaveDataToEncode:"))){
                 let val:NSNumber = NSNumber(bool:false)
                 receiver.setValue(val, forKey: "haveDataToEncode")
             }
         }else{
-            let receiver:UIViewController = segue.destinationViewController as! UIViewController
+            let receiver:UIViewController = segue.destinationViewController 
             if(receiver.respondsToSelector(Selector("setHaveDataToEncode:"))){
                 let val:NSNumber = NSNumber(bool:true)
                 receiver.setValue(val, forKey: "haveDataToEncode")
@@ -153,16 +153,16 @@ class setTextViewController: UIViewController, UINavigationControllerDelegate,UI
     }
 
     func saveToUserDefaults(){
-        var ud = NSUserDefaults.standardUserDefaults()
+        let ud = NSUserDefaults.standardUserDefaults()
         ud.setObject(textInput.text, forKey: "text")
         ud.setObject("txt", forKey: "uploadType")
         ud.synchronize()
-        println("saved complete!")
+        print("saved complete!")
     }
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         imgView.image = image
-        NSUserDefaults.standardUserDefaults().setObject(UIImagePNGRepresentation(imgView.image), forKey: "originImg")
-        println("image choosen.")
+        NSUserDefaults.standardUserDefaults().setObject(UIImagePNGRepresentation(imgView.image!), forKey: "originImg")
+        print("image choosen.")
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     /*

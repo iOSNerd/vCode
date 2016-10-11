@@ -164,10 +164,10 @@ class QRCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDeleg
         setted = false
         stringInQRCode = ""
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-            var picker:UIImagePickerController = UIImagePickerController()
+            let picker:UIImagePickerController = UIImagePickerController()
             picker.delegate = self
             picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-            picker.mediaTypes = [kUTTypeImage]
+            picker.mediaTypes = [kUTTypeImage as String]
             picker.allowsEditing = false
             self.presentViewController(picker, animated: true, completion: nil)
         }
@@ -187,13 +187,21 @@ class QRCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDeleg
         
         let captureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         
-        var error:NSError?
-        let input:AnyObject! = AVCaptureDeviceInput.deviceInputWithDevice(captureDevice, error: &error)
-        
-        if(error != nil){
-            println("\(error?.localizedDescription)")
-            return
+//        var error:NSError?
+        let input:AnyObject?
+        do {
+            input = try AVCaptureDeviceInput.init(device: captureDevice)
+        } catch _ {
+            //
+            return;
         }
+//            =AVCaptureDeviceInput.init(device: captureDevice)
+//        let input:AnyObject! = AVCaptureDeviceInput.deviceInputWithDevice(captureDevice)
+        
+//        if(error != nil){
+//            print("\(error?.localizedDescription)")
+//            return
+//        }
         
         captureSession = AVCaptureSession()
         captureSession?.addInput(input as! AVCaptureInput)
@@ -206,7 +214,7 @@ class QRCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDeleg
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
         videoPreviewLayer?.frame = view.layer.bounds
-        view.layer.insertSublayer(videoPreviewLayer, atIndex: 0);
+        view.layer.insertSublayer(videoPreviewLayer!, atIndex: 0);
         //view.bringSubviewToFront(label)
         captureSession?.startRunning()
         
@@ -277,7 +285,7 @@ class QRCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDeleg
                 self.setted = true
                 self.label.text = self.stringInQRCode
                 self.performSegueWithIdentifier("QRtoCutView", sender: self)
-                println(self.stringInQRCode)
+                print(self.stringInQRCode)
             }
             else{
                 let alertview = UIAlertView()
@@ -288,7 +296,7 @@ class QRCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDeleg
         });
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let receiver:UIViewController = segue.destinationViewController as! UIViewController
+        let receiver:UIViewController = segue.destinationViewController 
         if(receiver.respondsToSelector(Selector("setHaveDataToEncode:"))){
             let val:NSNumber = NSNumber(bool:true)
             receiver.setValue(val, forKey: "haveDataToEncode")

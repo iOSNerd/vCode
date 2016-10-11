@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "UMSocialControllerService.h"
-@interface ShareViewController : UIViewController<UMSocialUIDelegate>
+//#import "UMSocialControllerService.h"
+@interface ShareViewController : UIViewController
 @property (nonatomic,strong)UIImage* m_shareImg;
 @end

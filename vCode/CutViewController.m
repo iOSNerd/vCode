@@ -15,7 +15,7 @@
 #import "CPPickerView.h"
 #import "ASValueTrackingSlider.h"
 #import "WZFlashButton.h"
-#import "../Pods/MMMaterialDesignSpinner/Pod/Classes/MMMaterialDesignSpinner.h"
+#import <MMMaterialDesignSpinner/MMMaterialDesignSpinner.h>
 #import "OMGToast.h"
 #define ORIGINAL_MAX_WIDTH 640.0f
 
@@ -727,6 +727,9 @@
     }else{
         img= m_default_img;
     }
+    
+    NSLog(@"->:_portraitImageView = %@\n->:img = %@\n->:_dataToEncode = %@\n->:m_para_style = %@\n->:m_para_version = %@\n->:m_para_level = %@\n->:m_para_coding_area = %@\n->:m_para_padding_area = %@\n->:m_para_ratio = %@\n",_portraitImageView,img,_dataToEncode,@(m_para_style),@(m_para_version),@(m_para_level),@(m_para_coding_area),@(m_para_padding_area),@(m_para_ratio));
+    
     [QRDetector generateQRforView:_portraitImageView withImg:img text:_dataToEncode style:m_para_style version: m_para_version level:m_para_level codingarea:m_para_coding_area paddingarea:m_para_padding_area guideratio:m_para_ratio withFinishedBlock:^{
         if(m_spinnerView && [m_spinnerView isAnimating]){
             [m_spinnerView stopAnimating];

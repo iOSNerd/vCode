@@ -6,12 +6,12 @@ target 'vCode' do
   use_frameworks!
 
 	pod 'ZXingObjC', '~> 3.1.0'
-	pod 'UMengFeedback', '~> 2.3.4'
+#	pod 'UMengFeedback', '~> 2.3.4'
 	pod 'CTFeedback', '~> 1.1.1'
 	pod 'MMMaterialDesignSpinner', '~> 0.2.3'
 	pod 'LKDBHelper', '~> 2.3.5'
 
-
+    pod 'TencentOpenApiSDK', '~> 2.9.5'
 
 
   # Pods for vCode

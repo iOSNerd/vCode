@@ -7,7 +7,8 @@
 //
 
 #import "InfoViewController.h"
-#import "../Pods/CTFeedback/Classes/CTFeedbackViewController.h"
+#import <CTFeedback/CTFeedbackViewController.h>
+
 @interface InfoViewController ()
 @property(strong ,nonatomic)UIImageView *m_super_cai;
 @property(strong ,nonatomic)UIImageView *m_super_didi;

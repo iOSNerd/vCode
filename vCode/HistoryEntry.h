@@ -11,8 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HQR_typedef.h"
-#import "../Pods/LKDBHelper/LKDBHelper/Helper/LKDBHelper.h"
-
+#import <LKDBHelper/LKDBHelper.h>
 @interface HistoryEntry : NSObject
 
 @property(strong ,nonatomic)NSString *m_generated_picName;

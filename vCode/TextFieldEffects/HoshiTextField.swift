@@ -16,7 +16,7 @@ import UIKit
     }
 
     required public init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         delegate = self;
     }
     
@@ -47,15 +47,15 @@ import UIKit
             lengthLimitLabel.text = ""
             return true;
         }
-        let old:NSString = textField.text as NSString
+        let old:NSString = textField.text! as NSString
         let rep:NSString = string as NSString
         let curLength = old.length
         let selectedLength = range.length
         let replaceLength = rep.length
         let after = curLength - selectedLength + replaceLength
         if(after <= limmitLength){
-            var denominator : String = String(limmitLength)
-            var numerator  : String = String(after)
+            let denominator : String = String(limmitLength)
+            let numerator  : String = String(after)
             lengthLimitLabel.text = numerator + "/" + denominator
             return true;
         }
@@ -84,10 +84,10 @@ import UIKit
         let frame = CGRect(origin: CGPointZero, size: CGSize(width: rect.size.width, height: rect.size.height))
         
         placeholderLabel.frame = CGRectInset(frame, placeholderInsets.x, placeholderInsets.y)
-        placeholderLabel.font = placeholderFontFromFont(self.font)
+        placeholderLabel.font = placeholderFontFromFont(self.font!)
         
         lengthLimitLabel.frame = CGRect(x: frame.size.width-20,y: placeholderInsets.y,width: 20,height: frame.size.height)
-        lengthLimitLabel.font = placeholderFontFromFont(self.font)
+        lengthLimitLabel.font = placeholderFontFromFont(self.font!)
         
         updateBorder()
         updatePlaceholder()
@@ -114,7 +114,7 @@ import UIKit
         placeholderLabel.sizeToFit()
         layoutPlaceholderInTextRect()
         
-        if isFirstResponder() || !text.isEmpty {
+        if isFirstResponder() || !text!.isEmpty {
             animateViewsForTextEntry()
         }
     }
@@ -134,7 +134,7 @@ import UIKit
     
     private func layoutPlaceholderInTextRect() {
         
-        if !text.isEmpty {
+        if !text!.isEmpty {
             return
         }
         
@@ -157,7 +157,7 @@ import UIKit
         lengthLimitLabel.textColor = placeholderColor
         UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: ({ [unowned self] in
             
-            if self.text.isEmpty {
+            if self.text!.isEmpty {
                 self.placeholderLabel.frame.origin = CGPoint(x: 10, y: self.placeholderLabel.frame.origin.y)
                 self.placeholderLabel.alpha = 0
             }
@@ -176,7 +176,7 @@ import UIKit
     }
     
     override func animateViewsForTextDisplay() {
-        if text.isEmpty {
+        if text!.isEmpty {
             UIView.animateWithDuration(0.35, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 2.0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: ({ [unowned self] in
                 self.layoutPlaceholderInTextRect()
                 self.placeholderLabel.alpha = 1

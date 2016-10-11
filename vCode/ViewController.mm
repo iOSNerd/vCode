@@ -9,8 +9,8 @@
 #import "ViewController.h"
 #import "HQR.h"
 #import "md5Encryptor.h"
-#import "../Pods/UMengFeedback/UMFeedback_iOS_2.3/UMengFeedback_SDK_2.3/UMFeedback.h"
-#import "../Pods/MMMaterialDesignSpinner/Pod/Classes/MMMaterialDesignSpinner.h"
+//#import <UMengFeedback/UMFeedback.h>
+#import <MMMaterialDesignSpinner/MMMaterialDesignSpinner.h>
 #import "WZFlashButton.h"
 #import "UIDeviceHardware.h"
 
@@ -306,7 +306,7 @@
     [self performSegueWithIdentifier:@"HomeToInfo" sender:self];
 };
 -(void)btn_click_feedback{
-    [self.navigationController pushViewController:[UMFeedback feedbackViewController] animated:YES];
+//    [self.navigationController pushViewController:[UMFeedback feedbackViewController] animated:YES];
 };
 -(void)btn_click_rating{
     NSLog(@"app rating");
